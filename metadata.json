@@ -1,0 +1,8 @@
+{
+  "name": "faviconExpert",
+  "description": "High-utility digital asset generator for favicon bundles, text, emoji, and image processing with a comprehensive admin CMS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
