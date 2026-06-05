@@ -34,7 +34,7 @@ export function Home() {
               The Speed Tier for <span className="italic">Icon <span className="neon-text">Architecture.</span></span>
             </motion.h1>
             
-            <p className="text-slate-400 text-sm leading-relaxed max-w-md">
+            <p className="text-slate-400 text-lg leading-relaxed max-w-md">
               Instant asset generation with modular control. Design, preview, and export 
               complete production-ready favicon bundles in 12ms.
             </p>
@@ -105,7 +105,7 @@ export function Home() {
             <span className="micro-label">Eco-System Assets</span>
             <h2 className="text-2xl font-black font-display uppercase tracking-widest mt-1">Design Resources</h2>
           </div>
-          <p className="text-slate-500 text-xs font-medium hidden md:block">Complementary tools for premium interface development.</p>
+          <p className="text-slate-500 text-sm font-medium hidden md:block">Complementary tools for premium interface development.</p>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -165,7 +165,7 @@ function ResourceCard({ title, description, icon: Icon, link }: any) {
 
       <div className="space-y-1">
         <h3 className="font-bold text-sm text-white group-hover:text-brand-cyan transition-colors">{title}</h3>
-        <p className="text-[11px] text-slate-400 leading-relaxed">{description}</p>
+        <p className="text-sm text-slate-400 leading-relaxed">{description}</p>
       </div>
 
       <div className="mt-2 pt-4 border-t border-white/5 flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-brand-cyan transition-colors">
@@ -191,7 +191,7 @@ function GeneratorCard({ title, description, icon: Icon, color, link, isDashed, 
       <div className="flex justify-between items-start">
         <div className="space-y-1">
           <h3 className="font-bold text-sm text-white group-hover:neon-text transition-all">{title}</h3>
-          <p className="text-[11px] text-slate-400 leading-tight pr-4">{description}</p>
+          <p className="text-sm text-slate-400 leading-tight pr-4">{description}</p>
         </div>
         <div className={cn("w-2 h-2 rounded-full", statusColors[color])} />
       </div>

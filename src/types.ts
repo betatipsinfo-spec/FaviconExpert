@@ -21,6 +21,16 @@ export interface FaviconSettings {
   showBackgroundShadow: boolean;
 }
 
+export interface MediaFile {
+  id: string;
+  name: string;
+  url: string; // Base64 or local URL
+  type: string;
+  size: number;
+  dimensions?: { width: number; height: number };
+  createdAt: string;
+}
+
 export interface AdminPost {
   id: string;
   title: string;

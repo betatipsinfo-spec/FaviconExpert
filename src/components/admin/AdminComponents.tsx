@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { cn } from '../../lib/utils';
-import { AdminPost } from '../../types';
+import { AdminPost, MediaFile } from '../../types';
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
   const { siteConfig } = useApp();
@@ -102,7 +102,7 @@ export function ConfirmationModal({ isOpen, onClose, onConfirm, title, message }
               
               <div className="space-y-2">
                 <h3 className="text-xl font-bold text-white font-display uppercase tracking-widest">{title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">
+                <p className="text-slate-400 text-lg leading-relaxed">
                   {message}
                 </p>
               </div>
@@ -129,6 +129,148 @@ export function ConfirmationModal({ isOpen, onClose, onConfirm, title, message }
         </div>
       )}
     </AnimatePresence>
+  );
+}
+
+export function MediaLibrary() {
+  const { media, setMedia } = useApp();
+  const [dragActive, setDragActive] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  const handleFiles = async (files: FileList) => {
+    const newFiles = await Promise.all(Array.from(files).map(async (file) => {
+      return new Promise<MediaFile>((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            resolve({
+              id: Math.random().toString(36).substr(2, 9),
+              name: file.name,
+              url: e.target?.result as string,
+              type: file.type,
+              size: file.size,
+              dimensions: { width: img.width, height: img.height },
+              createdAt: new Date().toISOString()
+            });
+          };
+          img.src = e.target?.result as string;
+        };
+        reader.readAsDataURL(file);
+      });
+    }));
+
+    setMedia(prev => [...newFiles, ...prev]);
+  };
+
+  const onDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
+    else if (e.type === "dragleave") setDragActive(false);
+  };
+
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFiles(e.dataTransfer.files);
+    }
+  };
+
+  const handleDeleteTrigger = (id: string) => {
+    setDeleteId(id);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    if (deleteId) {
+      setMedia(media.filter(m => m.id !== deleteId));
+      setDeleteId(null);
+    }
+  };
+
+  return (
+    <div className="space-y-8">
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-3xl font-bold font-display">Media Engine</h1>
+          <p className="text-slate-500 mt-1 text-sm">Upload and manage local icons, textures, and UI assets.</p>
+        </div>
+        <div className="text-[10px] font-black uppercase text-brand-cyan bg-brand-cyan/10 px-3 py-1 rounded tracking-[0.2em] animate-pulse">
+          Local Storage Sync
+        </div>
+      </div>
+
+      <div 
+        className={cn(
+          "relative group border-2 border-dashed rounded-[2.5rem] p-12 transition-all flex flex-col items-center justify-center text-center space-y-4",
+          dragActive ? "border-brand-cyan bg-brand-cyan/5 scale-[0.99]" : "border-white/10 bg-white/[0.02] hover:border-white/20"
+        )}
+        onDragEnter={onDrag}
+        onDragLeave={onDrag}
+        onDragOver={onDrag}
+        onDrop={onDrop}
+      >
+        <div className="w-20 h-20 rounded-3xl bg-brand-cyan/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+          <ImageIcon className="w-8 h-8 text-brand-cyan" />
+        </div>
+        <div className="space-y-1">
+          <h3 className="text-xl font-bold text-white tracking-tight">Drop your assets here</h3>
+          <p className="text-slate-500 text-xs font-medium">SVG, PNG, or WEBP. Maximum 2MB per file recommended.</p>
+        </div>
+        <input 
+          type="file" 
+          multiple 
+          className="absolute inset-0 opacity-0 cursor-pointer" 
+          onChange={(e) => e.target.files && handleFiles(e.target.files)}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {media.map((file) => (
+          <motion.div 
+            layout
+            key={file.id} 
+            className="group relative glass rounded-3xl overflow-hidden border-white/5 aspect-square"
+          >
+            <img src={file.url} alt={file.name} className="w-full h-full object-cover p-2 group-hover:scale-110 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4 text-center">
+              <span className="text-[10px] font-bold text-white truncate w-full mb-1">{file.name}</span>
+              <span className="text-[8px] text-slate-400 font-mono">{(file.size / 1024).toFixed(1)} KB</span>
+              <div className="flex gap-2 mt-3">
+                <button className="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors" title="Download">
+                  <a href={file.url} download={file.name}><ImageIcon className="w-3.5 h-3.5 text-white" /></a>
+                </button>
+                <button 
+                  onClick={() => handleDeleteTrigger(file.id)}
+                  className="p-2 bg-red-500/20 hover:bg-red-500/40 rounded-lg transition-colors" 
+                  title="Delete"
+                >
+                  <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {media.length === 0 && (
+        <div className="py-20 text-center glass rounded-[2.5rem] border-white/5">
+          <p className="text-slate-600 font-mono text-xs italic">The media repository is currently empty.</p>
+        </div>
+      )}
+
+      <ConfirmationModal 
+        isOpen={showDeleteConfirm}
+        onClose={() => setShowDeleteConfirm(false)}
+        onConfirm={confirmDelete}
+        title="Destroy Asset"
+        message="Are you sure you want to permanently remove this asset from the local media library? This will free up storage space."
+      />
+    </div>
   );
 }
 
@@ -194,7 +336,7 @@ export function CMSManager() {
         <div className="flex justify-between items-center bg-[#0d1117] p-6 rounded-2xl border border-white/5 shadow-2xl">
           <div>
             <h1 className="text-2xl font-bold font-display uppercase tracking-widest text-white">Editor Mode</h1>
-            <p className="text-slate-500 text-xs mt-1">Refining: <span className="text-brand-cyan">{editingPost.title || 'Untitled Asset'}</span></p>
+            <p className="text-slate-500 text-sm mt-1">Refining: <span className="text-brand-cyan">{editingPost.title || 'Untitled Asset'}</span></p>
           </div>
           <div className="flex space-x-3">
             <button 
@@ -216,7 +358,7 @@ export function CMSManager() {
           <div className="lg:col-span-2 space-y-6">
             <div className="glass p-8 rounded-[2rem] space-y-6 border-white/5">
               <div className="space-y-2">
-                <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Document Title</label>
+                <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em]">Document Title</label>
                 <input 
                   type="text" 
                   value={editingPost.title}
@@ -227,7 +369,7 @@ export function CMSManager() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Markdown Source Content</label>
+                <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em]">Markdown Source Content</label>
                 <textarea 
                   value={editingPost.content}
                   onChange={(e) => setEditingPost({ ...editingPost, content: e.target.value })}
@@ -247,7 +389,7 @@ export function CMSManager() {
               
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">URL Routing (Slug)</label>
+                  <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em]">URL Routing (Slug)</label>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 text-xs">/</span>
                     <input 
@@ -260,7 +402,7 @@ export function CMSManager() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Category Bracket</label>
+                  <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em]">Category Bracket</label>
                   <select 
                     value={editingPost.category}
                     onChange={(e) => setEditingPost({ ...editingPost, category: e.target.value })}
@@ -274,7 +416,7 @@ export function CMSManager() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Deployment Status</label>
+                  <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em]">Deployment Status</label>
                   <div className="flex gap-2">
                     {['draft', 'published'].map((status) => (
                       <button
@@ -312,7 +454,7 @@ export function CMSManager() {
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-bold font-display">Content Engine</h1>
-          <p className="text-slate-500 mt-1">Manage your guides, documentation, and SEO pages.</p>
+          <p className="text-slate-500 mt-1 text-sm">Manage your guides, documentation, and SEO pages.</p>
         </div>
         <button 
           onClick={handleCreate}
@@ -345,7 +487,7 @@ export function CMSManager() {
         
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] border-b border-white/5">
+            <tr className="text-xs text-slate-500 uppercase font-black tracking-[0.2em] border-b border-white/5">
               <th className="px-8 py-6 font-black">Document Title</th>
               <th className="px-8 py-6 font-black">Category</th>
               <th className="px-8 py-6 font-black">Status</th>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { AdminLayout, CMSManager } from '../../components/admin/AdminComponents';
+import { AdminLayout, CMSManager, MediaLibrary } from '../../components/admin/AdminComponents';
 import { Route, Routes, Link } from 'react-router-dom';
-import { Layout, Palette, Globe, Layers, Eye, Smartphone, Search } from 'lucide-react';
+import { Layout, Palette, Globe, Layers, Eye, Smartphone, Search, Image as ImageIcon } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { cn } from '../../lib/utils';
 
@@ -119,7 +119,7 @@ function SiteConfigEditor() {
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-bold font-display">Design Configurator</h1>
-          <p className="text-slate-500 mt-1">Rewrite global design tokens and structural layout order.</p>
+          <p className="text-slate-500 mt-1 text-sm">Rewrite global design tokens and structural layout order.</p>
         </div>
         <div className="flex items-center space-x-2 text-[10px] font-bold uppercase tracking-widest text-slate-500">
           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -137,7 +137,7 @@ function SiteConfigEditor() {
           
           <div className="grid grid-cols-1 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Application Name</label>
+              <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em]">Application Name</label>
               <input 
                 type="text"
                 value={siteConfig.siteName}
@@ -149,7 +149,7 @@ function SiteConfigEditor() {
 
             <div className="grid grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Accent Color</label>
+                <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em]">Accent Color</label>
                 <div className="flex items-center space-x-3 bg-white/5 border border-white/10 rounded-2xl px-5 py-2.5">
                   <input 
                     type="color"
@@ -161,7 +161,7 @@ function SiteConfigEditor() {
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Corner Radius</label>
+                <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em]">Corner Radius</label>
                 <select 
                   value={siteConfig.borderRadius}
                   onChange={(e) => setSiteConfig({ ...siteConfig, borderRadius: e.target.value })}
@@ -177,7 +177,7 @@ function SiteConfigEditor() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Global Font Family</label>
+              <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em]">Global Font Family</label>
               <select 
                 value={siteConfig.fontFamily}
                 onChange={(e) => setSiteConfig({ ...siteConfig, fontFamily: e.target.value })}
@@ -207,7 +207,7 @@ function SiteConfigEditor() {
               <div key={key} className="flex items-center justify-between p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors">
                 <div className="space-y-0.5">
                   <span className="capitalize font-bold text-sm text-slate-200">{key.replace(/([A-Z])/g, ' $1')}</span>
-                  <p className="text-[10px] text-slate-500 font-medium">Control visibility of this section.</p>
+                  <p className="text-xs text-slate-500 font-medium">Control visibility of this section.</p>
                 </div>
                 <button 
                   onClick={() => setSiteConfig({
@@ -239,7 +239,7 @@ function SiteConfigEditor() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {Object.keys(siteConfig.social).map((network) => (
               <div key={network} className="space-y-2">
-                <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em] capitalize">{network}</label>
+                <label className="text-xs text-slate-500 uppercase font-black tracking-[0.2em] capitalize">{network}</label>
                 <div className="relative group">
                   <input 
                     type="text"
@@ -308,6 +308,7 @@ export function AdminDashboard() {
       <Routes>
         <Route index element={<DashboardHome />} />
         <Route path="cms" element={<CMSManager />} />
+        <Route path="media" element={<MediaLibrary />} />
         <Route path="config" element={<SiteConfigEditor />} />
         <Route path="*" element={<div className="text-slate-500 font-mono">Module integration in progress...</div>} />
       </Routes>

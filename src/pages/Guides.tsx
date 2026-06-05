@@ -22,7 +22,7 @@ function ResourceCard({ title, description, icon: Icon, link }: any) {
 
       <div className="space-y-1">
         <h3 className="font-bold text-sm text-white group-hover:text-brand-cyan transition-colors">{title}</h3>
-        <p className="text-[11px] text-slate-400 leading-relaxed">{description}</p>
+        <p className="text-sm text-slate-400 leading-relaxed">{description}</p>
       </div>
 
       <div className="mt-2 pt-4 border-t border-white/5 flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-brand-cyan transition-colors">
@@ -103,7 +103,7 @@ export function GuidesPage() {
             </div>
             <div>
               <h3 className="font-bold text-sm text-white group-hover:text-brand-purple transition-colors">Text Studio</h3>
-              <p className="text-[11px] text-slate-400 leading-relaxed">Design custom typographic assets and brand icons.</p>
+              <p className="text-sm text-slate-400 leading-relaxed">Design custom typographic assets and brand icons.</p>
             </div>
             <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-brand-purple transition-colors">
               <span>Open Studio</span>
@@ -117,7 +117,7 @@ export function GuidesPage() {
             </div>
             <div>
               <h3 className="font-bold text-sm text-white group-hover:text-brand-cyan transition-colors">Emoji Studio</h3>
-              <p className="text-[11px] text-slate-400 leading-relaxed">Create favicons from our premium vector emoji library.</p>
+              <p className="text-sm text-slate-400 leading-relaxed">Create favicons from our premium vector emoji library.</p>
             </div>
             <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-brand-cyan transition-colors">
               <span>Open Studio</span>
@@ -136,7 +136,7 @@ export function GuidesPage() {
             </div>
             <div>
               <h3 className="font-bold text-sm text-white group-hover:text-brand-purple transition-colors">Advance Palettes</h3>
-              <p className="text-[11px] text-slate-400 leading-relaxed">Professional color tools for modern web interfaces.</p>
+              <p className="text-sm text-slate-400 leading-relaxed">Professional color tools for modern web interfaces.</p>
             </div>
             <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-brand-purple transition-colors">
               <span>Explore Resource</span>

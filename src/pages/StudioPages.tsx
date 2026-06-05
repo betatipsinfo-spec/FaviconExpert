@@ -17,7 +17,7 @@ export function TextGeneratorPage() {
         </motion.div>
         <div>
           <h1 className="text-4xl md:text-5xl font-black font-display tracking-tight text-white uppercase italic">Text-to-<span className="neon-text">Favicon</span></h1>
-          <p className="text-slate-400 text-sm mt-2 max-w-xl">
+          <p className="text-slate-400 text-lg mt-2 max-w-xl">
             Input characters, pick fonts, and design vibrant background gradients for your brand's unique identity.
           </p>
         </div>
@@ -51,7 +51,7 @@ export function EmojiGeneratorPage() {
         </motion.div>
         <div>
           <h1 className="text-4xl md:text-5xl font-black font-display tracking-tight text-white uppercase italic">Emoji-to-<span className="neon-text">Favicon</span></h1>
-          <p className="text-slate-400 text-sm mt-2 max-w-xl">
+          <p className="text-slate-400 text-lg mt-2 max-w-xl">
             Search for your favorite emojis and instantly package them for production-ready web deployments.
           </p>
         </div>

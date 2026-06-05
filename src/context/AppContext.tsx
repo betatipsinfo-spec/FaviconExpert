@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { FaviconSettings, SiteConfig, AdminPost } from '../types';
+import { FaviconSettings, SiteConfig, AdminPost, MediaFile } from '../types';
 
 interface AppContextType {
   settings: FaviconSettings;
@@ -8,6 +8,8 @@ interface AppContextType {
   setSiteConfig: React.Dispatch<React.SetStateAction<SiteConfig>>;
   posts: AdminPost[];
   setPosts: React.Dispatch<React.SetStateAction<AdminPost[]>>;
+  media: MediaFile[];
+  setMedia: React.Dispatch<React.SetStateAction<MediaFile[]>>;
   isAuthenticated: boolean;
   setIsAuthenticated: (val: boolean) => void;
   logout: () => void;
@@ -109,6 +111,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
      }
    ]);
 
+  const [media, setMedia] = useState<MediaFile[]>(() => {
+    const saved = localStorage.getItem('iconforge_media');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     return localStorage.getItem('iconforge_auth') === 'true';
   });
@@ -126,6 +133,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('iconforge_site_config', JSON.stringify(siteConfig));
   }, [siteConfig]);
 
+  useEffect(() => {
+    localStorage.setItem('iconforge_media', JSON.stringify(media));
+  }, [media]);
+
   return (
     <AppContext.Provider value={{ 
       settings, 
@@ -134,6 +145,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setSiteConfig, 
       posts, 
       setPosts,
+      media,
+      setMedia,
       isAuthenticated,
       setIsAuthenticated,
       logout
