@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Search, Sparkles, Wand2, Smile, Image as ImageIcon, ArrowRight, Zap, Target, Box, ExternalLink, Palette } from 'lucide-react';
+import { Search, Sparkles, Wand2, Smile, Image as ImageIcon, ArrowRight, Zap, Target, Box, ExternalLink, Palette, Type, Layout } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { FONT_PAIRINGS, cn } from '../lib/utils';
 import { useApp } from '../context/AppContext';
@@ -132,6 +132,18 @@ export function Home() {
             description="Curated collection of layout cards, navbars, and interactive buttons."
             icon={Target}
             link="https://templatemind.com/"
+          />
+          <ResourceCard 
+            title="CSS Font Stacks"
+            description="The most comprehensive collection of web-safe CSS font stacks."
+            icon={Type}
+            link="https://templatemind.com/tools/css-fonts"
+          />
+          <ResourceCard 
+            title="CSS Suit & Free Fonts"
+            description="Download premium grade CSS templates and free font assets."
+            icon={Layout}
+            link="https://freecss.net/"
           />
         </div>
       </section>

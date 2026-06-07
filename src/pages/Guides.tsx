@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Info, FileCode, Terminal, Layers, ExternalLink, ArrowRight, Type, Smile, Sparkles, Box, Palette, Target } from 'lucide-react';
+import { BookOpen, Info, FileCode, Terminal, Layers, ExternalLink, ArrowRight, Type, Smile, Sparkles, Box, Palette, Target, Layout } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { ImplementationSteps, TechSpecsTable, KnowledgeBase } from '../components/GuideComponents';
@@ -163,6 +163,18 @@ export function GuidesPage() {
             description="Curated layout cards and interface components."
             icon={Target}
             link="https://templatemind.com/"
+          />
+          <ResourceCard 
+            title="CSS Font Stacks"
+            description="The most comprehensive collection of web-safe CSS font stacks."
+            icon={Type}
+            link="https://templatemind.com/tools/css-fonts"
+          />
+          <ResourceCard 
+            title="CSS Suit & Free Fonts"
+            description="Download premium grade CSS templates and free font assets."
+            icon={Layout}
+            link="https://freecss.net/"
           />
         </div>
       </div>
