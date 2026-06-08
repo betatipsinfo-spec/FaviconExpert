@@ -6,7 +6,7 @@ import { FAQSection, CORE_FAQ_ITEMS } from '../components/FAQSection';
 
 export function TextGeneratorPage() {
   return (
-    <div className="w-full px-8 py-12 space-y-12">
+    <div className="w-full px-4 sm:px-6 md:px-8 py-12 space-y-12">
       <header className="flex flex-col space-y-4">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
@@ -40,7 +40,7 @@ export function TextGeneratorPage() {
 
 export function EmojiGeneratorPage() {
   return (
-    <div className="w-full px-8 py-12 space-y-12">
+    <div className="w-full px-4 sm:px-6 md:px-8 py-12 space-y-12">
       <header className="flex flex-col space-y-4">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}

@@ -33,8 +33,8 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
   }, [siteConfig]);
 
   return (
-    <div className="flex flex-col min-h-screen items-center">
-      <div className="w-[80%] flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen items-center bg-brand-dark">
+      <div className="w-full lg:w-[92%] xl:w-[85%] max-w-[1600px] flex flex-col min-h-screen">
         {!isAdmin && <Header />}
         <main className="flex-grow">
           <AnimatePresence mode="wait">

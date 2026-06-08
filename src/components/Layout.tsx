@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Boxes, Menu, X, Search, Settings, FileCode, Wand2, Image as ImageIcon, Smile, Facebook, Instagram, Linkedin, Twitter, Pin, LogIn, LogOut, User, Lock, AlertCircle } from 'lucide-react';
+import { Boxes, Menu, X, Search, Settings, FileCode, Wand2, Image as ImageIcon, Smile, Facebook, Instagram, Linkedin, Twitter, Pin, LogIn, LogOut, User, Lock, AlertCircle, ChevronDown, ExternalLink, Type, Palette, Layout, Sparkles, Box } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useApp } from '../context/AppContext';
 
@@ -121,6 +121,7 @@ function LoginModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 export function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoginOpen, setIsLoginOpen] = React.useState(false);
+  const [isToolsOpen, setIsToolsOpen] = React.useState(false);
   const { siteConfig, isAuthenticated, logout } = useApp();
   const location = useLocation();
 
@@ -130,9 +131,21 @@ export function Header() {
     { name: 'Guides', path: '/guides', icon: FileCode },
   ];
 
+  const freeTools = [
+    { name: 'Text Studio', path: '/create-text', icon: Type },
+    { name: 'Emoji Studio', path: '/explore-emojis', icon: Smile },
+    { name: 'Image Studio', path: '/image-converter', icon: ImageIcon },
+    { name: 'Free Icon Gallery', path: 'https://templatemind.com/tools/icons', icon: Box, external: true },
+    { name: 'Free Color Palette', path: 'https://templatemind.com/tools/color-palettes', icon: Palette, external: true },
+    { name: 'Free UI Resources', path: 'https://templatemind.com/', icon: Layout, external: true },
+    { name: 'CSS Font Stacks', path: 'https://templatemind.com/tools/css-fonts', icon: Type, external: true },
+    { name: 'Advance Palettes', path: 'https://flatpalette.com/', icon: Sparkles, external: true },
+    { name: 'CSS Suit & Free Fonts', path: 'https://freecss.net/', icon: FileCode, external: true },
+  ];
+
   return (
-    <header className="sticky top-0 z-50 h-16 flex items-center justify-between px-8 glass-panel mt-4 border-t-0 border-x-0 rounded-none border-b shadow-2xl">
-      <div className="flex items-center gap-8 h-full">
+    <header className="sticky top-0 z-50 h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 glass-panel md:mt-4 border-t-0 border-x-0 md:rounded-xl border-b shadow-2xl">
+      <div className="flex items-center gap-4 sm:gap-8 h-full">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 group h-full">
           <div className="w-8 h-8 rounded bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center font-bold text-white shadow-lg group-hover:scale-105 transition-transform">
@@ -160,6 +173,63 @@ export function Header() {
               {item.name}
             </Link>
           ))}
+
+          {/* Free Tools Dropdown */}
+          <div className="relative h-full flex items-center">
+            <button 
+              onMouseEnter={() => setIsToolsOpen(true)}
+              onMouseLeave={() => setIsToolsOpen(false)}
+              className={cn(
+                "flex items-center gap-1.5 transition-colors pb-1 border-b-2 border-transparent",
+                isToolsOpen ? "text-brand-cyan" : "text-slate-400 hover:text-brand-cyan"
+              )}
+            >
+              <span>Free Tools</span>
+              <ChevronDown className={cn("w-3 h-3 transition-transform", isToolsOpen && "rotate-180")} />
+            </button>
+
+            <AnimatePresence>
+              {isToolsOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  onMouseEnter={() => setIsToolsOpen(true)}
+                  onMouseLeave={() => setIsToolsOpen(false)}
+                  className="absolute top-full left-0 w-64 bg-[#0d1117] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 mt-1 backdrop-blur-xl"
+                >
+                  <div className="grid grid-cols-1 gap-1">
+                    {freeTools.map((tool) => (
+                      tool.external ? (
+                        <a 
+                          key={tool.name}
+                          href={tool.path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-all group"
+                        >
+                          <div className="flex items-center gap-3">
+                            <tool.icon className="w-4 h-4 text-slate-500 group-hover:text-brand-cyan" />
+                            <span className="text-xs font-medium">{tool.name}</span>
+                          </div>
+                          <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </a>
+                      ) : (
+                        <Link
+                          key={tool.name}
+                          to={tool.path}
+                          className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-slate-400 hover:text-white transition-all group"
+                        >
+                          <tool.icon className="w-4 h-4 text-slate-500 group-hover:text-brand-purple" />
+                          <span className="text-xs font-medium">{tool.name}</span>
+                        </Link>
+                      )
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </nav>
       </div>
 
@@ -236,6 +306,41 @@ export function Header() {
                   <span>{item.name}</span>
                 </Link>
               ))}
+
+              <div className="pt-4 pb-2">
+                <span className="px-4 text-[10px] font-black uppercase tracking-widest text-slate-600">Free Resources</span>
+              </div>
+
+              {freeTools.map((tool) => (
+                tool.external ? (
+                  <a
+                    key={tool.name}
+                    href={tool.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    className="px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-between"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <tool.icon className="w-4 h-4" />
+                      <span>{tool.name}</span>
+                    </div>
+                    <ExternalLink className="w-3 h-3 text-slate-600" />
+                  </a>
+                ) : (
+                  <Link
+                    key={tool.name}
+                    to={tool.path}
+                    onClick={() => setIsOpen(false)}
+                    className="px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 flex items-center space-x-3"
+                  >
+                    <tool.icon className="w-4 h-4" />
+                    <span>{tool.name}</span>
+                  </Link>
+                )
+              ))}
+              
+              <div className="h-px bg-white/5 my-2" />
               {isAuthenticated ? (
                 <>
                   <Link
@@ -284,7 +389,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="glass-panel mb-4 mt-auto p-8">
+    <footer className="glass-panel mb-4 mt-auto px-4 sm:px-6 md:px-8 py-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         <div className="space-y-4">
           <Link to="/" className="flex items-center space-x-2 group">
