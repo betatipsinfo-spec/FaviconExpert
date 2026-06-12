@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Boxes, Menu, X, Search, Settings, FileCode, Wand2, Image as ImageIcon, Smile, Facebook, Instagram, Linkedin, Twitter, Pin, LogIn, LogOut, User, Lock, AlertCircle, ChevronDown, ExternalLink, Type, Palette, Layout, Sparkles, Box } from 'lucide-react';
+import { Boxes, Menu, X, Search, Settings, FileCode, Wand2, Image as ImageIcon, Smile, Facebook, Instagram, Linkedin, Twitter, Pin, LogIn, LogOut, User, Lock, AlertCircle, ChevronDown, ExternalLink, Type, Palette, Layout, Sparkles, Box, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { useApp } from '../context/AppContext';
 
@@ -141,6 +141,10 @@ export function Header() {
     { name: 'CSS Font Stacks', path: 'https://templatemind.com/tools/css-fonts', icon: Type, external: true },
     { name: 'Advance Palettes', path: 'https://flatpalette.com/', icon: Sparkles, external: true },
     { name: 'CSS Suit & Free Fonts', path: 'https://freecss.net/', icon: FileCode, external: true },
+    { name: 'Word Counter', path: 'https://templatemind.com/tools/word-counter', icon: FileText, external: true },
+    { name: 'Profile Picture Maker', path: 'https://templatemind.com/tools/profile-maker', icon: User, external: true },
+    { name: 'Fancy Font Generator', path: 'https://templatemind.com/tools/font-generator', icon: Wand2, external: true },
+    { name: 'Advanced Font Generator', path: 'https://genfonts.com/', icon: Sparkles, external: true },
   ];
 
   return (
@@ -148,8 +152,8 @@ export function Header() {
       <div className="flex items-center gap-4 sm:gap-8 h-full">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 group h-full">
-          <div className="w-8 h-8 rounded bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center font-bold text-white shadow-lg group-hover:scale-105 transition-transform">
-            {siteConfig.siteName.charAt(0)}
+          <div className="w-10 h-8 rounded bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center font-bold text-white shadow-lg group-hover:scale-105 transition-transform text-sm tracking-tighter">
+            FE
           </div>
           <span className="text-xl font-black tracking-tighter uppercase italic text-white flex shrink-0 lowercase">
             {siteConfig.siteName}
@@ -393,8 +397,8 @@ export function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
         <div className="space-y-4">
           <Link to="/" className="flex items-center space-x-2 group">
-            <div className="w-8 h-8 rounded bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center font-bold text-white shadow-lg group-hover:scale-105 transition-transform">
-              {siteConfig.siteName.charAt(0)}
+            <div className="w-10 h-8 rounded bg-gradient-to-br from-brand-purple to-brand-cyan flex items-center justify-center font-bold text-white shadow-lg group-hover:scale-105 transition-transform text-sm tracking-tighter">
+              FE
             </div>
             <span className="text-xl font-black tracking-tighter uppercase italic text-white lowercase">
               {siteConfig.siteName}

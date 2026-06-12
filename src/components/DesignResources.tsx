@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Palette, Sparkles, Target, Type, Layout, ExternalLink, ArrowRight } from 'lucide-react';
+import { Box, Palette, Sparkles, Target, Type, Layout, ExternalLink, ArrowRight, FileText, User, Wand2 } from 'lucide-react';
 
 interface Resource {
   title: string;
@@ -45,6 +45,30 @@ export const RESOURCES: Resource[] = [
     description: "Download premium grade CSS templates and free font assets.",
     icon: Layout,
     link: "https://freecss.net/"
+  },
+  {
+    title: "Word Counter",
+    description: "Accurate character and word counting tool for content creators.",
+    icon: FileText,
+    link: "https://templatemind.com/tools/word-counter"
+  },
+  {
+    title: "Profile Picture Maker",
+    description: "Generate professional social media profile avatars instantly.",
+    icon: User,
+    link: "https://templatemind.com/tools/profile-maker"
+  },
+  {
+    title: "Fancy Font Generator",
+    description: "Transform plain text into decorative stylish font variations.",
+    icon: Wand2,
+    link: "https://templatemind.com/tools/font-generator"
+  },
+  {
+    title: "Advanced Font Generator",
+    description: "Pro-level typography conversion for unique brand identities.",
+    icon: Sparkles,
+    link: "https://genfonts.com/"
   }
 ];
 
