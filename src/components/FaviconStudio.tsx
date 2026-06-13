@@ -122,9 +122,9 @@ export function FaviconStudio({ mode }: PreviewProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 py-4 sm:py-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Controls */}
-      <div className="lg:col-span-1 space-y-6 order-2 lg:order-1">
+      <div className="lg:col-span-1 space-y-6">
         {/* Aesthetic Presets */}
         <div className="glass-panel p-6 space-y-4">
           <div className="flex items-center space-x-2">
@@ -496,7 +496,7 @@ export function FaviconStudio({ mode }: PreviewProps) {
       </div>
 
       {/* Preview Section */}
-      <div className="lg:col-span-2 space-y-8 order-1 lg:order-2">
+      <div className="lg:col-span-2 space-y-8">
         <div className="space-y-4">
           <div className="flex items-center justify-between px-2">
             <div className="flex items-center space-x-2">

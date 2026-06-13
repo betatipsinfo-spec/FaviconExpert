@@ -162,7 +162,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 glass-panel md:mt-4 border-t-0 border-x-0 md:rounded-xl border-b shadow-2xl backdrop-blur-md">
+    <header className="sticky top-0 z-50 h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 glass-panel md:mt-4 border-t-0 border-x-0 md:rounded-xl border-b shadow-2xl">
       <div className="flex items-center gap-4 sm:gap-8 h-full">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 group h-full">
@@ -390,7 +390,7 @@ export function Header() {
                   key={item.path}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className="px-4 py-3.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 flex items-center space-x-3 active:scale-[0.98] transition-all"
+                  className="px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 flex items-center space-x-3"
                 >
                   <item.icon className="w-4 h-4" />
                   <span>{item.name}</span>
