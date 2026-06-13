@@ -27,11 +27,11 @@ export function AboutPage() {
         </div>
       </section>
 
-      <DesignResourcesSection />
-
       <section>
         <FAQSection items={CORE_FAQ_ITEMS} />
       </section>
+
+      <DesignResourcesSection />
     </div>
   );
 }

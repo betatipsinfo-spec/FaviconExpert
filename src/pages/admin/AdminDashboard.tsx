@@ -267,8 +267,8 @@ function SiteConfigEditor() {
             <span>SEO & Indexing Metadata</span>
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-1 space-y-6">
               <div className="space-y-2">
                 <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Meta Title Template</label>
                 <input 
@@ -287,13 +287,63 @@ function SiteConfigEditor() {
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Global Description</label>
-              <textarea 
-                value={siteConfig.seo.description}
-                onChange={(e) => setSiteConfig({ ...siteConfig, seo: { ...siteConfig.seo, description: e.target.value } })}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-brand-cyan/50 text-slate-300 text-xs h-[13.5rem] resize-none transition-all leading-relaxed"
-              />
+
+            <div className="lg:col-span-1 space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Global Description</label>
+                <textarea 
+                  value={siteConfig.seo.description}
+                  onChange={(e) => setSiteConfig({ ...siteConfig, seo: { ...siteConfig.seo, description: e.target.value } })}
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-brand-cyan/50 text-slate-300 text-xs h-[13.5rem] resize-none transition-all leading-relaxed"
+                />
+              </div>
+            </div>
+
+            <div className="lg:col-span-1 space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Open Graph Image (URL)</label>
+                <input 
+                  type="text"
+                  value={siteConfig.seo.ogImage}
+                  onChange={(e) => setSiteConfig({ ...siteConfig, seo: { ...siteConfig.seo, ogImage: e.target.value } })}
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-brand-cyan/50 text-slate-200 transition-all text-xs font-mono"
+                  placeholder="https://example.com/og-image.png"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">OG Type</label>
+                  <select 
+                    value={siteConfig.seo.ogType}
+                    onChange={(e) => setSiteConfig({ ...siteConfig, seo: { ...siteConfig.seo, ogType: e.target.value } })}
+                    className="w-full h-12 bg-white/5 border border-white/10 rounded-2xl px-4 focus:outline-none text-slate-200 text-xs"
+                  >
+                    <option value="website">Website</option>
+                    <option value="article">Article</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Twitter Card</label>
+                  <select 
+                    value={siteConfig.seo.twitterCard}
+                    onChange={(e) => setSiteConfig({ ...siteConfig, seo: { ...siteConfig.seo, twitterCard: e.target.value } })}
+                    className="w-full h-12 bg-white/5 border border-white/10 rounded-2xl px-4 focus:outline-none text-slate-200 text-xs"
+                  >
+                    <option value="summary">Summary</option>
+                    <option value="summary_large_image">Large Image</option>
+                  </select>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Twitter Site Handler</label>
+                <input 
+                  type="text"
+                  value={siteConfig.seo.twitterSite}
+                  onChange={(e) => setSiteConfig({ ...siteConfig, seo: { ...siteConfig.seo, twitterSite: e.target.value } })}
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-brand-cyan/50 text-slate-200 transition-all text-xs font-mono"
+                  placeholder="@yourhandle"
+                />
+              </div>
             </div>
           </div>
         </div>

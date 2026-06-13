@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Palette, Sparkles, Target, Type, Layout, ExternalLink, ArrowRight, FileText, User, Wand2 } from 'lucide-react';
+import { Box, Palette, Sparkles, Target, Type, Layout, ExternalLink, ArrowRight, FileText, User, Wand2, Image as ImageIcon, Crop, Minimize2, Droplets, Camera, Stamp } from 'lucide-react';
 
 interface Resource {
   title: string;
@@ -11,43 +11,55 @@ interface Resource {
 
 export const RESOURCES: Resource[] = [
   {
-    title: "Free Icon Gallery",
-    description: "Customize and export over 10,000+ vector icons for web projects.",
-    icon: Box,
-    link: "https://templatemind.com/tools/icons"
-  },
-  {
-    title: "Free Color Palettes",
-    description: "Premium color combinations and gradient presets for UI design.",
-    icon: Palette,
-    link: "https://templatemind.com/tools/color-palettes"
-  },
-  {
-    title: "Advance Color Palettes",
-    description: "Professional flat color palette generator for modern web interfaces.",
+    title: "Free Advance Font Generator",
+    description: "Pro-level typography conversion for unique brand identities.",
     icon: Sparkles,
+    link: "https://genfonts.com/"
+  },
+  {
+    title: "Free Advance Color Palettes",
+    description: "Professional flat color palette generator for modern web interfaces.",
+    icon: Palette,
     link: "https://flatpalette.com/"
   },
   {
-    title: "Free UI Resources",
-    description: "Curated collection of layout cards, navbars, and interactive buttons.",
-    icon: Target,
-    link: "https://templatemind.com/"
-  },
-  {
-    title: "CSS Font Stacks",
-    description: "The most comprehensive collection of web-safe CSS font stacks.",
-    icon: Type,
-    link: "https://templatemind.com/tools/css-fonts"
-  },
-  {
-    title: "CSS Suit & Free Fonts",
+    title: "CSS Suite & Free Fonts",
     description: "Download premium grade CSS templates and free font assets.",
     icon: Layout,
     link: "https://freecss.net/"
   },
   {
-    title: "Word Counter",
+    title: "Free Resource UI",
+    description: "Curated collection of layout cards, navbars, and interactive buttons.",
+    icon: Target,
+    link: "https://templatemind.com/"
+  },
+  {
+    title: "Image Watermarker",
+    description: "Protect your visual assets with custom text or image watermarks.",
+    icon: Stamp,
+    link: "https://templatemind.com/tools/watermark"
+  },
+  {
+    title: "Image Converter",
+    description: "Batch convert images between PNG, JPG, WebP, and SVG formats.",
+    icon: ImageIcon,
+    link: "https://templatemind.com/tools/image-converter"
+  },
+  {
+    title: "Image Cropper",
+    description: "Precision cropping tool for social media and web platform assets.",
+    icon: Crop,
+    link: "https://templatemind.com/tools/image-cropper"
+  },
+  {
+    title: "Image Compressor",
+    description: "Reduce file sizes while maintaining high-quality visual standards.",
+    icon: Minimize2,
+    link: "https://templatemind.com/tools/image-compressor"
+  },
+  {
+    title: "Word Count",
     description: "Accurate character and word counting tool for content creators.",
     icon: FileText,
     link: "https://templatemind.com/tools/word-counter"
@@ -65,10 +77,34 @@ export const RESOURCES: Resource[] = [
     link: "https://templatemind.com/tools/font-generator"
   },
   {
-    title: "Advanced Font Generator",
-    description: "Pro-level typography conversion for unique brand identities.",
-    icon: Sparkles,
-    link: "https://genfonts.com/"
+    title: "Free Icon Gallery",
+    description: "Customize and export over 10,000+ vector icons for web projects.",
+    icon: Box,
+    link: "https://templatemind.com/tools/icons"
+  },
+  {
+    title: "Free Color Palettes",
+    description: "Premium color combinations and gradient presets for UI design.",
+    icon: Palette,
+    link: "https://templatemind.com/tools/color-palettes"
+  },
+  {
+    title: "CSS Font Stacks",
+    description: "The most comprehensive collection of web-safe CSS font stacks.",
+    icon: Type,
+    link: "https://templatemind.com/tools/css-fonts"
+  },
+  {
+    title: "Gradient Generator",
+    description: "Create smooth CSS linear and radial gradients with live previews.",
+    icon: Droplets,
+    link: "https://templatemind.com/tools/gradients"
+  },
+  {
+    title: "Screen Capture",
+    description: "Take high-resolution screenshots of any URL or viewport size.",
+    icon: Camera,
+    link: "https://templatemind.com/tools/screenshot"
   }
 ];
 
@@ -103,7 +139,7 @@ export function ResourceCard({ title, description, icon: Icon, link }: Resource)
 
 export function DesignResourcesSection() {
   return (
-    <section className="space-y-8">
+    <section id="design-resources" className="space-y-8">
       <div className="flex items-end justify-between border-b border-white/5 pb-4">
         <div>
           <span className="micro-label">Eco-System Assets</span>
@@ -112,7 +148,7 @@ export function DesignResourcesSection() {
         <p className="text-slate-500 text-sm font-medium hidden md:block">Complementary tools for premium interface development.</p>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {RESOURCES.map((resource) => (
           <ResourceCard 
             key={resource.title} 

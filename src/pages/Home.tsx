@@ -30,26 +30,26 @@ export function Home() {
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-5xl md:text-7xl font-black tracking-tight leading-[0.9]"
+              className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight leading-[1] md:leading-[0.9]"
             >
               The Speed Tier for <span className="italic">Icon <span className="neon-text">Architecture.</span></span>
             </motion.h1>
             
-            <p className="text-slate-400 text-lg leading-relaxed max-w-md">
+            <p className="text-slate-400 text-base sm:text-lg leading-relaxed max-w-md mx-auto md:mx-0">
               Instant asset generation with modular control. Design, preview, and export 
               complete production-ready favicon bundles in 12ms.
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-4">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 pt-4">
               <Link 
                 to="/create-text"
-                className="bg-white text-black font-black px-8 py-3 rounded text-xs uppercase tracking-widest hover:bg-slate-200 transition-all shadow-xl shadow-white/5"
+                className="w-full sm:w-auto bg-white text-black font-black px-8 py-3 rounded text-xs uppercase tracking-widest hover:bg-slate-200 transition-all shadow-xl shadow-white/5 text-center"
               >
                 Start Creating
               </Link>
               <Link 
                 to="/guides"
-                className="glass-panel px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-all text-white"
+                className="w-full sm:w-auto glass-panel px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-all text-white text-center"
               >
                 View Documentation
               </Link>
@@ -99,18 +99,17 @@ export function Home() {
       )}
 
 
-      {/* External Resources */}
-      <section className="px-4 sm:px-6 md:px-8">
-        <DesignResourcesSection />
-      </section>
-
-
       {/* FAQ Section */}
       {siteConfig.toggles.guides && (
-        <section className="w-full px-4 sm:px-6 md:px-8 pb-20">
+        <section className="w-full px-4 sm:px-6 md:px-8">
           <FAQSection items={CORE_FAQ_ITEMS} />
         </section>
       )}
+
+      {/* External Resources */}
+      <section className="px-4 sm:px-6 md:px-8 pb-20">
+        <DesignResourcesSection />
+      </section>
     </div>
   );
 }

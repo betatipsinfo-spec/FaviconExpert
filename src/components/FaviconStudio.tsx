@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Download, Copy, Check, FileJson, ImageIcon, Settings, Palette, Sun, Moon, Search, ExternalLink, ArrowRight, Wand2, Smile, Type, Target, Box, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'motion/react';
+import { Download, FileJson, Settings, Palette, Sun, Moon, Search, ExternalLink, ArrowRight, Wand2, Smile, Type, Target, Box, Sparkles, Image as ImageIcon } from 'lucide-react';
 import JSZip from 'jszip';
 import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { generateFaviconDataUrl, generateFaviconSvg, cn, AESTHETIC_PRESETS } from '../lib/utils';
 import { BrowserPreview } from './BrowserPreview';
 import { ImplementationSteps, TechSpecsTable, KnowledgeBase } from './GuideComponents';
-import { Info, FileCode, Terminal, BookOpen, Layers, X, Code, FileCode2 } from 'lucide-react';
+import { Info, Terminal, BookOpen, Layers, X, FileCode } from 'lucide-react';
 import { EMOJI_GROUPS } from '../data/emojis';
 
 interface PreviewProps {
@@ -46,11 +46,20 @@ function ResourceItem({ title, description, icon: Icon, link }: any) {
 export function FaviconStudio({ mode }: PreviewProps) {
   const { settings, setSettings, posts } = useApp();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 20 });
+  const glowY = useTransform(smoothProgress, [0, 1], ["-80%", "-20%"]);
+  const glowScale = useTransform(smoothProgress, [0, 0.5, 1], [0.8, 1.6, 0.8]);
+  const glowOpacity = useTransform(smoothProgress, [0, 0.5, 1], [0.3, 1, 0.3]);
+
   const [previewSize, setPreviewSize] = useState(256);
   const [previewTheme, setPreviewTheme] = useState<'dark' | 'light'>('dark');
   const [isDownloading, setIsDownloading] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
-  const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
   const [emojiSearch, setEmojiSearch] = useState('');
 
   const filteredEmojis = useMemo(() => {
@@ -112,55 +121,10 @@ export function FaviconStudio({ mode }: PreviewProps) {
     setIsDownloading(false);
   };
 
-  const handleDownloadPNG = (size: number = 512) => {
-    const tempCanvas = document.createElement('canvas');
-    const dataUrl = generateFaviconDataUrl(tempCanvas, size, settings, mode);
-    const link = document.createElement('a');
-    link.href = dataUrl;
-    link.download = `favicon-${size}x${size}.png`;
-    link.click();
-  };
-
-  const handleDownloadSVG = () => {
-    const svgStr = generateFaviconSvg(settings, mode);
-    const blob = new Blob([svgStr], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `favicon.svg`;
-    link.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const copyLinkTag = (size?: number) => {
-    const key = size ? size.toString() : 'main';
-    let tag = '';
-    
-    if (size) {
-      if (size === 180) {
-        tag = `<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">`;
-      } else {
-        tag = `<link rel="icon" type="image/png" sizes="${size}x${size}" href="/favicon-${size}x${size}.png">`;
-      }
-    } else {
-      tag = `<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">`;
-    }
-
-    navigator.clipboard.writeText(tag);
-    
-    if (size) {
-      setCopiedStates(prev => ({ ...prev, [key]: true }));
-      setTimeout(() => setCopiedStates(prev => ({ ...prev, [key]: false })), 2000);
-    } else {
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    }
-  };
-
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 py-4 sm:py-8">
       {/* Controls */}
-      <div className="lg:col-span-1 space-y-6">
+      <div className="lg:col-span-1 space-y-6 order-2 lg:order-1">
         {/* Aesthetic Presets */}
         <div className="glass-panel p-6 space-y-4">
           <div className="flex items-center space-x-2">
@@ -532,7 +496,7 @@ export function FaviconStudio({ mode }: PreviewProps) {
       </div>
 
       {/* Preview Section */}
-      <div className="lg:col-span-2 space-y-8">
+      <div className="lg:col-span-2 space-y-8 order-1 lg:order-2">
         <div className="space-y-4">
           <div className="flex items-center justify-between px-2">
             <div className="flex items-center space-x-2">
@@ -566,15 +530,20 @@ export function FaviconStudio({ mode }: PreviewProps) {
           <BrowserPreview mode={mode} theme={previewTheme} />
         </div>
 
-        <div className={cn(
+        <div 
+          ref={containerRef}
+          className={cn(
           "flex flex-col items-center justify-center glass-panel p-12 min-h-[440px] relative overflow-hidden group transition-colors duration-500",
           previewTheme === 'light' ? "bg-slate-100/50" : ""
         )}>
           {/* Decorative Glow */}
-          <div className={cn(
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 blur-[100px] pointer-events-none transition-all duration-1000",
-            previewTheme === 'dark' ? "bg-brand-cyan/5 group-hover:bg-brand-purple/5" : "bg-brand-cyan/10 opacity-50"
-          )} />
+          <motion.div 
+            style={{ x: "-50%", y: glowY, scale: glowScale, opacity: glowOpacity }}
+            className={cn(
+              "absolute top-1/2 left-1/2 w-80 h-80 blur-[100px] pointer-events-none",
+              previewTheme === 'dark' ? "bg-brand-cyan/20 group-hover:bg-brand-purple/20" : "bg-brand-cyan/30"
+            )} 
+          />
           
           <div className="relative group">
             <canvas 
@@ -587,7 +556,7 @@ export function FaviconStudio({ mode }: PreviewProps) {
               "absolute -bottom-6 -right-6 glass-panel px-3 py-1 text-[9px] font-mono font-black transition-colors",
               previewTheme === 'dark' ? "text-slate-500" : "text-slate-400"
             )}>
-              512 x 512 PX
+
             </div>
           </div>
 
@@ -600,30 +569,6 @@ export function FaviconStudio({ mode }: PreviewProps) {
             >
               {isDownloading ? <div className="animate-spin rounded-full h-4 w-4 border-2 border-white/30 border-t-white" /> : <Download className="w-4 h-4" />}
               <span>Download Bundle</span>
-            </button>
-            <button
-              onClick={() => handleDownloadPNG(512)}
-              className="px-8 py-4 glass-panel rounded font-black text-[10px] uppercase tracking-widest text-white flex items-center space-x-3 hover:scale-105 transition-all border-brand-cyan/20 hover:border-brand-cyan"
-              id="btn-download-png"
-            >
-              <ImageIcon className="w-4 h-4 text-brand-cyan" />
-              <span>Download (PNG)</span>
-            </button>
-            <button
-              onClick={handleDownloadSVG}
-              className="px-8 py-4 glass-panel rounded font-black text-[10px] uppercase tracking-widest text-white flex items-center space-x-3 hover:scale-105 transition-all border-brand-purple/20 hover:border-brand-purple"
-              id="btn-download-svg"
-            >
-              <FileCode2 className="w-4 h-4 text-brand-purple" />
-              <span>Download (SVG)</span>
-            </button>
-            <button
-              onClick={() => copyLinkTag()}
-              className="px-8 py-4 glass-panel rounded font-bold text-[10px] uppercase tracking-widest flex items-center space-x-3 hover:bg-white/5 transition-all text-slate-300"
-              id="btn-copy-tag"
-            >
-              {isCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-              <span>{isCopied ? 'Asset Copied' : 'Copy HTML Tag'}</span>
             </button>
           </div>
         </div>
@@ -650,23 +595,6 @@ export function FaviconStudio({ mode }: PreviewProps) {
                   <p className="text-[8px] text-slate-500 font-bold uppercase tracking-tight mt-1">Export Standard</p>
                 </div>
               </div>
-
-              <div className="flex flex-col w-full gap-2 pt-4 border-t border-white/5">
-                <button 
-                  onClick={() => handleDownloadPNG(sz)}
-                  className="w-full py-2 rounded bg-white/5 hover:bg-brand-cyan/10 hover:text-brand-cyan text-slate-400 text-[8px] font-black uppercase tracking-widest border border-white/5 flex items-center justify-center space-x-2 transition-all"
-                >
-                  <Download className="w-2.5 h-2.5" />
-                  <span>Download PNG</span>
-                </button>
-                <button 
-                  onClick={() => copyLinkTag(sz)}
-                  className="w-full py-2 rounded bg-white/5 hover:bg-brand-purple/10 hover:text-brand-purple text-slate-400 text-[8px] font-black uppercase tracking-widest border border-white/5 flex items-center justify-center space-x-2 transition-all"
-                >
-                  {copiedStates[sz.toString()] ? <Check className="w-2.5 h-2.5" /> : <Code className="w-2.5 h-2.5" />}
-                  <span>{copiedStates[sz.toString()] ? 'Copied' : 'Copy HTML'}</span>
-                </button>
-              </div>
             </div>
           ))}
         </div>
@@ -681,7 +609,7 @@ export function FaviconStudio({ mode }: PreviewProps) {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {mode === 'text' ? (
             <Link to="/explore-emojis" className="glass-panel p-6 flex flex-col gap-4 group hover:border-brand-cyan/20 transition-all">
               <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-brand-cyan/20 group-hover:bg-brand-cyan/5 transition-all">
@@ -726,46 +654,10 @@ export function FaviconStudio({ mode }: PreviewProps) {
             </div>
           </Link>
 
-          <a 
-            href="https://flatpalette.com/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="glass-panel p-6 flex flex-col gap-4 group hover:border-brand-purple/20 transition-all"
-          >
-            <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-brand-purple/20 group-hover:bg-brand-purple/5 transition-all">
-              <Sparkles className="w-5 h-5 text-slate-400 group-hover:text-brand-purple transition-colors" />
-            </div>
-            <div>
-              <h3 className="font-bold text-sm text-white group-hover:text-brand-purple transition-colors">Advance Palettes</h3>
-              <p className="text-[11px] text-slate-400 leading-relaxed">Professional color tools for modern web interfaces.</p>
-            </div>
-            <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-brand-purple transition-colors">
-              <span>Explore Resource</span>
-              <ArrowRight className="w-2 h-2" />
-            </div>
-          </a>
+
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <ResourceItem 
-            title="Free Icon Gallery"
-            description="Customize and export over 10,000+ vector icons."
-            icon={Box}
-            link="https://templatemind.com/tools/icons"
-          />
-          <ResourceItem 
-            title="Free Color Palettes"
-            description="Premium color combinations for UI design."
-            icon={Palette}
-            link="https://templatemind.com/tools/color-palettes"
-          />
-          <ResourceItem 
-            title="Free UI Resources"
-            description="Curated layout cards and interface components."
-            icon={Target}
-            link="https://templatemind.com/"
-          />
-        </div>
+
       </div>
 
       {/* Integration Guides */}

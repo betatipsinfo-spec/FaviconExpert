@@ -38,6 +38,7 @@ import { ImplementationSteps, TechSpecsTable, KnowledgeBase } from '../component
 
 import { FAQSection, CORE_FAQ_ITEMS } from '../components/FAQSection';
 import { BrowserPreview } from '../components/BrowserPreview';
+import { DesignResourcesSection } from '../components/DesignResources';
 
 export function ImageConverterPage() {
   const { posts } = useApp();
@@ -354,86 +355,6 @@ export function ImageConverterPage() {
         </div>
       </div>
 
-      {/* Related Tools & Resources */}
-      <div className="pt-24 space-y-12">
-        <div className="flex items-end justify-between border-b border-white/5 pb-4">
-          <div>
-            <span className="micro-label">Studio Ecosystem</span>
-            <h2 className="text-2xl font-black font-display uppercase tracking-widest mt-1">Related Tools & Resources</h2>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Link to="/create-text" className="glass-panel p-6 flex flex-col gap-4 group hover:border-brand-purple/20 transition-all">
-            <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-brand-purple/20 group-hover:bg-brand-purple/5 transition-all">
-              <Type className="w-5 h-5 text-slate-400 group-hover:text-brand-purple transition-colors" />
-            </div>
-            <div>
-              <h3 className="font-bold text-sm text-white group-hover:text-brand-purple transition-colors">Text Studio</h3>
-              <p className="text-[11px] text-slate-400 leading-relaxed">Design custom typographic assets and brand icons.</p>
-            </div>
-            <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-brand-purple transition-colors">
-              <span>Open Studio</span>
-              <ArrowRight className="w-2 h-2" />
-            </div>
-          </Link>
-
-          <Link to="/explore-emojis" className="glass-panel p-6 flex flex-col gap-4 group hover:border-brand-cyan/20 transition-all">
-            <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-brand-cyan/20 group-hover:bg-brand-cyan/5 transition-all">
-              <Smile className="w-5 h-5 text-slate-400 group-hover:text-brand-cyan transition-colors" />
-            </div>
-            <div>
-              <h3 className="font-bold text-sm text-white group-hover:text-brand-cyan transition-colors">Emoji Studio</h3>
-              <p className="text-[11px] text-slate-400 leading-relaxed">Create favicons from our premium vector emoji library.</p>
-            </div>
-            <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-brand-cyan transition-colors">
-              <span>Open Studio</span>
-              <ArrowRight className="w-2 h-2" />
-            </div>
-          </Link>
-
-          <a 
-            href="https://flatpalette.com/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="glass-panel p-6 flex flex-col gap-4 group hover:border-brand-purple/20 transition-all"
-          >
-            <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-brand-purple/20 group-hover:bg-brand-purple/5 transition-all">
-              <Sparkles className="w-5 h-5 text-slate-400 group-hover:text-brand-purple transition-colors" />
-            </div>
-            <div>
-              <h3 className="font-bold text-sm text-white group-hover:text-brand-purple transition-colors">Advance Palettes</h3>
-              <p className="text-[11px] text-slate-400 leading-relaxed">Professional color tools for modern web interfaces.</p>
-            </div>
-            <div className="mt-auto pt-4 border-t border-white/5 flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-brand-purple transition-colors">
-              <span>Explore Resource</span>
-              <ArrowRight className="w-2 h-2" />
-            </div>
-          </a>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <ResourceCard 
-            title="Free Icon Gallery"
-            description="Customize and export over 10,000+ vector icons."
-            icon={Box}
-            link="https://templatemind.com/tools/icons"
-          />
-          <ResourceCard 
-            title="Free Color Palettes"
-            description="Premium color combinations for UI design."
-            icon={Palette}
-            link="https://templatemind.com/tools/color-palettes"
-          />
-          <ResourceCard 
-            title="Free UI Resources"
-            description="Curated layout cards and interface components."
-            icon={Target}
-            link="https://templatemind.com/"
-          />
-        </div>
-      </div>
-
       {/* Integration Guides */}
       <div className="pt-24 space-y-24">
         <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent w-full" />
@@ -489,6 +410,8 @@ export function ImageConverterPage() {
         <div className="pb-20 w-full">
           <FAQSection items={CORE_FAQ_ITEMS} />
         </div>
+
+        <DesignResourcesSection />
       </div>
     </div>
   );

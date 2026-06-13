@@ -7,6 +7,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 import { Header, Footer } from './components/Layout';
+import { SEOHead } from './components/SEOHead';
 import { Home } from './pages/Home';
 import { TextGeneratorPage, EmojiGeneratorPage } from './pages/StudioPages';
 import { ImageConverterPage } from './pages/ImageConverter';
@@ -34,6 +35,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex flex-col min-h-screen items-center bg-brand-dark">
+      <SEOHead />
       <div className="w-full lg:w-[92%] xl:w-[85%] max-w-[1600px] flex flex-col min-h-screen">
         {!isAdmin && <Header />}
         <main className="flex-grow">

@@ -122,13 +122,19 @@ export function Header() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoginOpen, setIsLoginOpen] = React.useState(false);
   const [isToolsOpen, setIsToolsOpen] = React.useState(false);
+  const [isTemplatesOpen, setIsTemplatesOpen] = React.useState(false);
   const { siteConfig, isAuthenticated, logout } = useApp();
   const location = useLocation();
 
   const navItems = [
     { name: 'Generators', path: '/', icon: Wand2 },
-    { name: 'Templates', path: '/create-text', icon: Wand2 },
     { name: 'Guides', path: '/guides', icon: FileCode },
+  ];
+
+  const templateItems = [
+    { name: 'Text to Favicon', path: '/create-text', icon: Type },
+    { name: 'Emoji to Favicon', path: '/explore-emojis', icon: Smile },
+    { name: 'Image Converter', path: '/image-converter', icon: ImageIcon },
   ];
 
   const freeTools = [
@@ -147,8 +153,16 @@ export function Header() {
     { name: 'Advanced Font Generator', path: 'https://genfonts.com/', icon: Sparkles, external: true },
   ];
 
+  const scrollToResources = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const element = document.getElementById('design-resources');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-50 h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 glass-panel md:mt-4 border-t-0 border-x-0 md:rounded-xl border-b shadow-2xl">
+    <header className="sticky top-0 z-50 h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 glass-panel md:mt-4 border-t-0 border-x-0 md:rounded-xl border-b shadow-2xl backdrop-blur-md">
       <div className="flex items-center gap-4 sm:gap-8 h-full">
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2 group h-full">
@@ -162,27 +176,83 @@ export function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-8 text-sm font-medium h-full items-center">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
+          <Link
+            to="/"
+            className={cn(
+              "transition-colors pb-1 border-b-2",
+              location.pathname === "/" 
+                ? "text-white border-brand-purple" 
+                : "text-slate-400 hover:text-brand-cyan border-transparent"
+            )}
+            id="nav-generators"
+          >
+            Generators
+          </Link>
+
+          {/* Templates Dropdown */}
+          <div className="relative h-full flex items-center">
+            <button 
+              onMouseEnter={() => setIsTemplatesOpen(true)}
+              onMouseLeave={() => setIsTemplatesOpen(false)}
               className={cn(
-                "transition-colors pb-1 border-b-2",
-                location.pathname === item.path 
-                  ? "text-white border-brand-purple" 
-                  : "text-slate-400 hover:text-brand-cyan border-transparent"
+                "flex items-center gap-1.5 transition-colors pb-1 border-b-2 border-transparent",
+                isTemplatesOpen || templateItems.some(item => location.pathname === item.path) ? "text-brand-cyan" : "text-slate-400 hover:text-brand-cyan",
+                templateItems.some(item => location.pathname === item.path) && "border-brand-purple text-white"
               )}
-              id={`nav-${item.name.toLowerCase()}`}
             >
-              {item.name}
-            </Link>
-          ))}
+              <span>Templates</span>
+              <ChevronDown className={cn("w-3 h-3 transition-transform", isTemplatesOpen && "rotate-180")} />
+            </button>
+
+            <AnimatePresence>
+              {isTemplatesOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  onMouseEnter={() => setIsTemplatesOpen(true)}
+                  onMouseLeave={() => setIsTemplatesOpen(false)}
+                  className="absolute top-full left-0 w-56 bg-[#0d1117] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 mt-1 backdrop-blur-xl"
+                >
+                  <div className="grid grid-cols-1 gap-1">
+                    {templateItems.map((item) => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className={cn(
+                          "flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-all group",
+                          location.pathname === item.path ? "text-white bg-white/5" : "text-slate-400 hover:text-white"
+                        )}
+                      >
+                        <item.icon className={cn("w-4 h-4 text-slate-500", location.pathname === item.path ? "text-brand-purple" : "group-hover:text-brand-purple")} />
+                        <span className="text-xs font-medium">{item.name}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <Link
+            to="/guides"
+            className={cn(
+              "transition-colors pb-1 border-b-2",
+              location.pathname === "/guides" 
+                ? "text-white border-brand-purple" 
+                : "text-slate-400 hover:text-brand-cyan border-transparent"
+            )}
+            id="nav-guides"
+          >
+            Guides
+          </Link>
 
           {/* Free Tools Dropdown */}
           <div className="relative h-full flex items-center">
             <button 
               onMouseEnter={() => setIsToolsOpen(true)}
               onMouseLeave={() => setIsToolsOpen(false)}
+              onClick={scrollToResources}
               className={cn(
                 "flex items-center gap-1.5 transition-colors pb-1 border-b-2 border-transparent",
                 isToolsOpen ? "text-brand-cyan" : "text-slate-400 hover:text-brand-cyan"
@@ -305,6 +375,22 @@ export function Header() {
                   to={item.path}
                   onClick={() => setIsOpen(false)}
                   className="px-4 py-3 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 flex items-center space-x-3"
+                >
+                  <item.icon className="w-4 h-4" />
+                  <span>{item.name}</span>
+                </Link>
+              ))}
+
+              <div className="pt-4 pb-2">
+                <span className="px-4 text-[10px] font-black uppercase tracking-widest text-slate-600">Templates</span>
+              </div>
+
+              {templateItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-3.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 flex items-center space-x-3 active:scale-[0.98] transition-all"
                 >
                   <item.icon className="w-4 h-4" />
                   <span>{item.name}</span>

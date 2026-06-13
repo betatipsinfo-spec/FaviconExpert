@@ -63,6 +63,10 @@ const defaultSiteConfig: SiteConfig = {
     title: 'faviconExpert | The Speed Tier for Icon Architecture',
     description: 'Instantly generate favicon packages from text, emojis, or images.',
     keywords: 'favicon generator, icon maker, web assets, png to ico',
+    ogImage: 'https://faviconexpert.com/og-image.png',
+    ogType: 'website',
+    twitterCard: 'summary_large_image',
+    twitterSite: '@faviconExpert',
   }
 };
 

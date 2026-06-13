@@ -3,6 +3,7 @@ import { FaviconStudio } from '../components/FaviconStudio';
 import { motion } from 'motion/react';
 import { Type, Smile } from 'lucide-react';
 import { FAQSection, CORE_FAQ_ITEMS } from '../components/FAQSection';
+import { DesignResourcesSection } from '../components/DesignResources';
 
 export function TextGeneratorPage() {
   return (
@@ -34,6 +35,8 @@ export function TextGeneratorPage() {
       <div className="pt-20">
         <FAQSection items={CORE_FAQ_ITEMS} />
       </div>
+
+      <DesignResourcesSection />
     </div>
   );
 }
@@ -68,6 +71,8 @@ export function EmojiGeneratorPage() {
       <div className="pt-20">
         <FAQSection items={CORE_FAQ_ITEMS} />
       </div>
+
+      <DesignResourcesSection />
     </div>
   );
 }
